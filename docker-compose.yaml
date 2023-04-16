@@ -1,0 +1,7 @@
+version: '3'
+
+services:
+  test-cli:
+    build: .
+    command:
+      - python3 cli.py base
