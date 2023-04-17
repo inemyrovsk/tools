@@ -27,8 +27,14 @@ def wget_download_url(archive_url):
 
 
 def env_path():
-    return os.environ["PATH"].split(':')[1]  # TODO set path dynamically
+    return os.environ["PATH"].split(':')[3]  # TODO set path dynamically
 
+def install_packages():
+    destination = env_path()
+    source = "tools"
+    for tool in os.listdir(source):
+        subprocess.run(["chmod", "+x", f"./{source}/{tool}"])
+        os.rename(f"./{source}/{tool}", f"{destination}/{tool}")
 
 def unzip_archive(archive_url):
     import zipfile
@@ -37,17 +43,18 @@ def unzip_archive(archive_url):
     with zipfile.ZipFile(achive_name, "r") as zip_ref:
         zip_ref.extractall("tools")
 
-    # subprocess.run("chmod", "+x", )
 
 
 def install_infra_tools():
     terraform_url = "https://releases.hashicorp.com/terraform/1.3.5/terraform_1.3.5_linux_amd64.zip"
     wget_download_url(terraform_url)
     unzip_archive(terraform_url)
+    install_packages()
 
 
 def install_base():
-    base_packages = ["git", "vim", "zsh", "tmux", "htop", "curl", "wget", "tree", "zip", "unzip"]
+    base_packages = ["wget", "zip", "unzip"]
+    # base_packages = ["git", "vim", "zsh", "tmux", "htop", "curl", "wget", "tree", "zip", "unzip"]
     package_manager = installation_method()
     for package in base_packages:
         subprocess.run([package_manager, "install", package, "-y"])
