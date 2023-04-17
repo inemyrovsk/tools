@@ -27,7 +27,9 @@ def wget_download_url(archive_url):
 
 
 def env_path():
-    return os.environ["PATH"].split(':')[3]  # TODO set path dynamically
+    return "/usr/local/bin"
+    # TODO set path dynamically
+    #return os.environ["PATH"].split(':')[3]
 
 def install_packages():
     destination = env_path()
